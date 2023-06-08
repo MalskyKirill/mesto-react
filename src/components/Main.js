@@ -1,15 +1,4 @@
-function Main({onEditProfile}) {
-  const handleEditProfileClick = () => {
-    document.querySelector('popup_type_popup-profile').classList.add('popup_opened');
-  }
-
-  const handleEditAvatarClick = () => {
-    document.querySelector('.popup_type_popup-new-avatar').classList.add('popup_opened');
-  }
-
-  const handleAddPlaceClick = () => {
-    document.querySelector('.popup_type_popup-new-place').classList.add('popup_opened');
-  }
+function Main({onEditProfile, onAddPlace, onEditAvatar}) {
 
   return (
     <main className='content'>
@@ -18,7 +7,7 @@ function Main({onEditProfile}) {
           className='profile__avatar'
           src={require('../images/image.jpg')}
           alt='аватар'
-          onClick={handleEditAvatarClick}
+          onClick={onEditAvatar}
         />
         <div className='profile__info'>
           <div className='profile__wrap'>
@@ -27,7 +16,7 @@ function Main({onEditProfile}) {
           </div>
           <p className='profile__job'>Исследователь</p>
         </div>
-        <button className='profile__add-button' type='button' onClick={handleAddPlaceClick}></button>
+        <button className='profile__add-button' type='button' onClick={onAddPlace}></button>
       </section>
       <section className='elements' aria-label='Фоточки'>
         <ul className='cards'></ul>

@@ -3,19 +3,34 @@ import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
+import { useState } from 'react';
 
 function App() {
   const handleEditProfileClick = () => {
-    document
-      .querySelector('.popup_type_popup-profile')
-      .classList.add('popup_opened');
+    setIsEditProfilePopupOpen(true);
   };
+
+  const handleEditAvatarClick = () => {
+    setIsEditAvatarPopupOpen(true);
+  };
+
+  const handleAddPlaceClick = () => {
+    setIsAddPlacePopupOpen(true);
+  };
+
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
 
   return (
     <div className='body'>
       <div className='page'>
         <Header />
-        <Main onEditProfile={handleEditProfileClick} />
+        <Main
+          onEditProfile={handleEditProfileClick}
+          onAddPlace={handleAddPlaceClick}
+          onEditAvatar={handleEditAvatarClick}
+        />
         <Footer />
       </div>
       {/* <!-- попап редактирования профайла --> */}
@@ -23,6 +38,7 @@ function App() {
         name='popup-profile'
         title='Редактировать профиль'
         formId='profileField'
+        isOpened={isEditProfilePopupOpen}
         children={
           <>
             <label className='popup__field-wrap'>
@@ -64,6 +80,7 @@ function App() {
         name={'popup-new-place'}
         title={'Новое место'}
         formId={'newPlaceField'}
+        isOpened={isAddPlacePopupOpen}
         children={
           <>
             <label className='popup__field-wrap'>
@@ -105,6 +122,7 @@ function App() {
         name={'popup-new-avatar'}
         title={'Обновить аватар'}
         formId={'newAvatarField'}
+        isOpened={isEditAvatarPopupOpen}
         children={
           <>
             <label className='popup__field-wrap'>
