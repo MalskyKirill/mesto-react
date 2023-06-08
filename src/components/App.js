@@ -1,30 +1,30 @@
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
+import PopupWithForm from './PopupWithForm';
+import ImagePopup from './ImagePopup';
 
 function App() {
+  const handleEditProfileClick = () => {
+    document
+      .querySelector('.popup_type_popup-profile')
+      .classList.add('popup_opened');
+  };
+
   return (
     <div className='body'>
       <div className='page'>
         <Header />
-        <Main />
+        <Main onEditProfile={handleEditProfileClick} />
         <Footer />
       </div>
       {/* <!-- попап редактирования профайла --> */}
-      <div className='popup' id='popupProfile'>
-        <div className='popup__container'>
-          <h2 className='popup__title'>Редактировать профиль</h2>
-          <button
-            className='popup__close'
-            type='button'
-            id='closePopupProfile'
-          ></button>
-          <form
-            className='popup__form'
-            id='profileField'
-            name='popupForm'
-            novalidate
-          >
+      <PopupWithForm
+        name='popup-profile'
+        title='Редактировать профиль'
+        formId='profileField'
+        children={
+          <>
             <label className='popup__field-wrap'>
               <input
                 id='name'
@@ -32,8 +32,8 @@ function App() {
                 className='popup__field popup__field_next_name'
                 placeholder='Имя'
                 name='name'
-                minlength='2'
-                maxlength='40'
+                minLength='2'
+                maxLength='40'
                 required
               />
               <span className='popup__field-error popup__field-error-name'></span>
@@ -45,8 +45,8 @@ function App() {
                 className='popup__field popup__field_next_job'
                 placeholder='Вид деятельности'
                 name='about'
-                minlength='2'
-                maxlength='200'
+                minLength='2'
+                maxLength='200'
                 required
               />
               <span className='popup__field-error popup__field-error-job'>
@@ -56,24 +56,16 @@ function App() {
             <button className='popup__save' type='submit' form='profileField'>
               Сохранить
             </button>
-          </form>
-        </div>
-      </div>
+          </>
+        }
+      />
       {/* <!-- попап добавления новой карточки --> */}
-      <div className='popup' id='popupNewPlace'>
-        <div className='popup__container'>
-          <h2 className='popup__title'>Новое место</h2>
-          <button
-            className='popup__close'
-            type='button'
-            id='closePopupNewPlase'
-          ></button>
-          <form
-            className='popup__form'
-            id='newPlaceField'
-            name='popupForm'
-            novalidate
-          >
+      <PopupWithForm
+        name={'popup-new-place'}
+        title={'Новое место'}
+        formId={'newPlaceField'}
+        children={
+          <>
             <label className='popup__field-wrap'>
               <input
                 id='title'
@@ -81,8 +73,8 @@ function App() {
                 className='popup__field popup__field_next_title'
                 placeholder='Название'
                 name='title'
-                minlength='2'
-                maxlength='30'
+                minLength='2'
+                maxLength='30'
                 required
               />
               <span className='popup__field-error popup__field-error-title'>
@@ -105,24 +97,16 @@ function App() {
             <button className='popup__save' type='submit' form='newPlaceField'>
               Создать
             </button>
-          </form>
-        </div>
-      </div>
+          </>
+        }
+      />
       {/* <!-- попап смены аватара --> */}
-      <div className='popup' id='popupNewAvatar'>
-        <div className='popup__container'>
-          <h2 className='popup__title'>Обновить аватар</h2>
-          <button
-            className='popup__close'
-            type='button'
-            id='closePopupNewAvatar'
-          ></button>
-          <form
-            className='popup__form'
-            id='newAvatarField'
-            name='popupForm'
-            novalidate
-          >
+      <PopupWithForm
+        name={'popup-new-avatar'}
+        title={'Обновить аватар'}
+        formId={'newAvatarField'}
+        children={
+          <>
             <label className='popup__field-wrap'>
               <input
                 id='linkAvatar'
@@ -139,41 +123,28 @@ function App() {
             <button className='popup__save' type='submit' form='newAvatarField'>
               Сохранить
             </button>
-          </form>
-        </div>
-      </div>
+          </>
+        }
+      />
       {/* <!-- попап подтверждения удаления карточка --> */}
-      <div className='popup' id='popupConfurmDelite'>
-        <div className='popup__container'>
-          <h2 className='popup__title'>Вы уверены?</h2>
-          <button
-            className='popup__close'
-            type='button'
-            id='closeConfurmDelite'
-          ></button>
-          <form
-            className='popup__form popup__form_confurm-delite'
-            id='ConfurmDeliteField'
-            name='popupForm'
-            novalidate
-          >
-            <button className='popup__save' type='submit' form='ConfurmDeliteField'>
+      <PopupWithForm
+        name={'popup-confurm-delite'}
+        title={'Вы уверены?'}
+        formId={'ConfurmDeliteField'}
+        children={
+          <>
+            <button
+              className='popup__save'
+              type='submit'
+              form='ConfurmDeliteField'
+            >
               Да
             </button>
-          </form>
-        </div>
-      </div>
+          </>
+        }
+      />
       {/* <!-- попап увеличенной картики --> */}
-      <div className='popup popup_big-photo' id='popupBigPhoto'>
-        <div className='popup__container-big-photo'>
-          <button
-            className='popup__close popup__close-big-photo'
-            type='button'
-          ></button>
-          <img src='https://' alt='случайная фотка' className='popup__photo' />
-          <p className='popup__photo-name'></p>
-        </div>
-      </div>
+      <ImagePopup />
       {/* <!-- шаблон карточки --> */}
       <template className='card_template'>
         <li className='card'>
