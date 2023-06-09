@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { api } from '../utils/ApiService';
+import Card from './Card';
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
   const [userName, setUserName] = useState('');
@@ -13,7 +14,6 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
       setUserDescription(about);
       setUserAvatar(avatar);
     });
-
   }, [userName, userDescription, userAvatar]);
 
   useEffect(() => {
@@ -22,6 +22,9 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
     });
   }, [cards]);
 
+  const cardItem = cards.map(({ link, name, likes }, i) => (
+    <Card link={link} name={name} likes={likes} key={i} />
+  ));
 
   return (
     <main className='content'>
@@ -51,19 +54,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
       </section>
       <section className='elements' aria-label='Фоточки'>
         <ul className='cards'>
-          {cards.map(({link, name, likes}, i) => (
-            <li className='card' key={i}>
-              <img src={link} alt={name} className='card__photo' />
-              <button className='card__trash'></button>
-              <div className='card__wrap'>
-                <h2 className='card__name'>{name}</h2>
-                <div className='card__like-wrap'>
-                  <button className='card__like' type='button'></button>
-                  <span className='card__like-count'>{likes.length}</span>
-                </div>
-              </div>
-            </li>
-          ))}
+          {cardItem}
         </ul>
       </section>
     </main>
