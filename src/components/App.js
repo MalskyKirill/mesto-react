@@ -18,16 +18,24 @@ function App() {
     setIsAddPlacePopupOpen(true);
   };
 
+  const handelCardClick = ({ name, link }) => {
+    setSelectedCard({ name, link });
+    setIsImagePopupOpen(true);
+  };
+
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+
+  const [selectedCard, setSelectedCard] = useState({});
 
   const closeAllPopup = () => {
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
-  }
-
+    setIsImagePopupOpen(false);
+  };
 
   return (
     <div className='body'>
@@ -37,6 +45,7 @@ function App() {
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
+          onCardClick={handelCardClick}
         />
         <Footer />
       </div>
@@ -172,7 +181,11 @@ function App() {
         }
       />
       {/* <!-- попап увеличенной картики --> */}
-      <ImagePopup />
+      <ImagePopup
+        card={selectedCard}
+        isOpened={isImagePopupOpen}
+        onClose={closeAllPopup}
+      />
       {/* <!-- шаблон карточки --> */}
       <template className='card_template'>
         <li className='card'>
