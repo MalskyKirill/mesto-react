@@ -1,6 +1,6 @@
 import {URL, AUTHORIZATION_KEY} from './consts'
 
-class ApiService {
+class Api {
   constructor(url, authorizationToken) {
     this._url = url;
     this._authorizationToken = authorizationToken;
@@ -127,6 +127,6 @@ class ApiService {
   }
 }
 
-export const api = new ApiService(URL, AUTHORIZATION_KEY);
+export const api = new Api(URL, AUTHORIZATION_KEY);
 
 
