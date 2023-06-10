@@ -51,9 +51,10 @@ function App() {
       </div>
       {/* <!-- попап редактирования профайла --> */}
       <PopupWithForm
-        name='popup-profile'
-        title='Редактировать профиль'
-        formId='profileField'
+        name={'popup-profile'}
+        title={'Редактировать профиль'}
+        formId={'profileField'}
+        buttonText={'Сохранить'}
         isOpened={isEditProfilePopupOpen}
         onClose={closeAllPopup}
         children={
@@ -86,9 +87,6 @@ function App() {
                 ошибка профайла
               </span>
             </label>
-            <button className='popup__save' type='submit' form='profileField'>
-              Сохранить
-            </button>
           </>
         }
       />
@@ -97,6 +95,7 @@ function App() {
         name={'popup-new-place'}
         title={'Новое место'}
         formId={'newPlaceField'}
+        buttonText={'Создать'}
         isOpened={isAddPlacePopupOpen}
         onClose={closeAllPopup}
         children={
@@ -129,9 +128,6 @@ function App() {
                 ошибка юрл адреса
               </span>
             </label>
-            <button className='popup__save' type='submit' form='newPlaceField'>
-              Создать
-            </button>
           </>
         }
       />
@@ -140,6 +136,7 @@ function App() {
         name={'popup-new-avatar'}
         title={'Обновить аватар'}
         formId={'newAvatarField'}
+        buttonText={'Сохранить'}
         isOpened={isEditAvatarPopupOpen}
         onClose={closeAllPopup}
         children={
@@ -157,9 +154,6 @@ function App() {
                 ошибка юрл адреса
               </span>
             </label>
-            <button className='popup__save' type='submit' form='newAvatarField'>
-              Сохранить
-            </button>
           </>
         }
       />
@@ -168,17 +162,8 @@ function App() {
         name={'popup-confurm-delite'}
         title={'Вы уверены?'}
         formId={'ConfurmDeliteField'}
-        children={
-          <>
-            <button
-              className='popup__save'
-              type='submit'
-              form='ConfurmDeliteField'
-            >
-              Да
-            </button>
-          </>
-        }
+        buttonText={'Да'}
+        children={<></>}
       />
       {/* <!-- попап увеличенной картики --> */}
       <ImagePopup

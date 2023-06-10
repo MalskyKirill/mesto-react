@@ -8,22 +8,28 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
   const [userAvatar, setUserAvatar] = useState('');
   const [cards, setcards] = useState([]);
 
+  //получение данных  с сервера и изменение стейта пользовательских данных и карточки
   useEffect(() => {
-    api.getUser().then(({ name, about, avatar }) => {
-      setUserName(name);
-      setUserDescription(about);
-      setUserAvatar(avatar);
-    });
-  }, [userName, userDescription, userAvatar]);
+    Promise.all([api.getCards(), api.getUser()])
+      .then(([resCardData, resUserData]) => {
+        console.log(resCardData);
+        setUserName(resUserData.name);
+        setUserDescription(resUserData.about);
+        setUserAvatar(resUserData.avatar);
+        setcards(resCardData);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
-  useEffect(() => {
-    api.getCards().then((resCardData) => {
-      setcards(resCardData);
-    });
-  }, [cards]);
 
-  const cardItem = cards.map(({ link, name, likes }, i) => (
-    <Card link={link} name={name} likes={likes} key={i} onCardClick={onCardClick}/>
+  const cardList = cards.map(({ link, name, likes, _id }) => (
+    <Card
+      link={link}
+      name={name}
+      likes={likes}
+      key={_id}
+      onCardClick={onCardClick}
+    />
   ));
 
   return (
@@ -53,9 +59,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
         ></button>
       </section>
       <section className='elements' aria-label='Фоточки'>
-        <ul className='cards'>
-          {cardItem}
-        </ul>
+        <ul className='cards'>{cardList}</ul>
       </section>
     </main>
   );

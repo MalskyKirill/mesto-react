@@ -1,4 +1,4 @@
-import {URL, AUTHORIZATION_KEY} from './consts'
+import { URL, AUTHORIZATION_KEY } from './consts';
 
 class Api {
   constructor(url, authorizationToken) {
@@ -128,5 +128,3 @@ class Api {
 }
 
 export const api = new Api(URL, AUTHORIZATION_KEY);
-
-
