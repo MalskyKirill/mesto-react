@@ -57,39 +57,36 @@ function App() {
         buttonText={'Сохранить'}
         isOpened={isEditProfilePopupOpen}
         onClose={closeAllPopup}
-        children={
-          <>
-            <label className='popup__field-wrap'>
-              <input
-                id='name'
-                type='text'
-                className='popup__field popup__field_next_name'
-                placeholder='Имя'
-                name='name'
-                minLength='2'
-                maxLength='40'
-                required
-              />
-              <span className='popup__field-error popup__field-error-name'></span>
-            </label>
-            <label className='popup__field-wrap'>
-              <input
-                id='job'
-                type='text'
-                className='popup__field popup__field_next_job'
-                placeholder='Вид деятельности'
-                name='about'
-                minLength='2'
-                maxLength='200'
-                required
-              />
-              <span className='popup__field-error popup__field-error-job'>
-                ошибка профайла
-              </span>
-            </label>
-          </>
-        }
-      />
+      >
+        <label className='popup__field-wrap'>
+          <input
+            id='name'
+            type='text'
+            className='popup__field popup__field_next_name'
+            placeholder='Имя'
+            name='name'
+            minLength='2'
+            maxLength='40'
+            required
+          />
+          <span className='popup__field-error popup__field-error-name'></span>
+        </label>
+        <label className='popup__field-wrap'>
+          <input
+            id='job'
+            type='text'
+            className='popup__field popup__field_next_job'
+            placeholder='Вид деятельности'
+            name='about'
+            minLength='2'
+            maxLength='200'
+            required
+          />
+          <span className='popup__field-error popup__field-error-job'>
+            ошибка профайла
+          </span>
+        </label>
+      </PopupWithForm>
       {/* <!-- попап добавления новой карточки --> */}
       <PopupWithForm
         name={'popup-new-place'}
@@ -98,39 +95,36 @@ function App() {
         buttonText={'Создать'}
         isOpened={isAddPlacePopupOpen}
         onClose={closeAllPopup}
-        children={
-          <>
-            <label className='popup__field-wrap'>
-              <input
-                id='title'
-                type='text'
-                className='popup__field popup__field_next_title'
-                placeholder='Название'
-                name='title'
-                minLength='2'
-                maxLength='30'
-                required
-              />
-              <span className='popup__field-error popup__field-error-title'>
-                ошибка имени карточки
-              </span>
-            </label>
-            <label className='popup__field-wrap'>
-              <input
-                id='link'
-                type='url'
-                className='popup__field popup__field_next_link'
-                placeholder='Ссылка на картинку'
-                name='link'
-                required
-              />
-              <span className='popup__field-error popup__field-error-link'>
-                ошибка юрл адреса
-              </span>
-            </label>
-          </>
-        }
-      />
+      >
+        <label className='popup__field-wrap'>
+          <input
+            id='title'
+            type='text'
+            className='popup__field popup__field_next_title'
+            placeholder='Название'
+            name='title'
+            minLength='2'
+            maxLength='30'
+            required
+          />
+          <span className='popup__field-error popup__field-error-title'>
+            ошибка имени карточки
+          </span>
+        </label>
+        <label className='popup__field-wrap'>
+          <input
+            id='link'
+            type='url'
+            className='popup__field popup__field_next_link'
+            placeholder='Ссылка на картинку'
+            name='link'
+            required
+          />
+          <span className='popup__field-error popup__field-error-link'>
+            ошибка юрл адреса
+          </span>
+        </label>
+      </PopupWithForm>
       {/* <!-- попап смены аватара --> */}
       <PopupWithForm
         name={'popup-new-avatar'}
@@ -139,31 +133,27 @@ function App() {
         buttonText={'Сохранить'}
         isOpened={isEditAvatarPopupOpen}
         onClose={closeAllPopup}
-        children={
-          <>
-            <label className='popup__field-wrap'>
-              <input
-                id='linkAvatar'
-                type='url'
-                className='popup__field popup__field_next_link'
-                placeholder='Ссылка на картинку'
-                name='link'
-                required
-              />
-              <span className='popup__field-error popup__field-error-linkAvatar'>
-                ошибка юрл адреса
-              </span>
-            </label>
-          </>
-        }
-      />
+      >
+        <label className='popup__field-wrap'>
+          <input
+            id='linkAvatar'
+            type='url'
+            className='popup__field popup__field_next_link'
+            placeholder='Ссылка на картинку'
+            name='link'
+            required
+          />
+          <span className='popup__field-error popup__field-error-linkAvatar'>
+            ошибка юрл адреса
+          </span>
+        </label>
+      </PopupWithForm>
       {/* <!-- попап подтверждения удаления карточка --> */}
       <PopupWithForm
         name={'popup-confurm-delite'}
         title={'Вы уверены?'}
         formId={'ConfurmDeliteField'}
         buttonText={'Да'}
-        children={<></>}
       />
       {/* <!-- попап увеличенной картики --> */}
       <ImagePopup
@@ -171,20 +161,6 @@ function App() {
         isOpened={isImagePopupOpen}
         onClose={closeAllPopup}
       />
-      {/* <!-- шаблон карточки --> */}
-      <template className='card_template'>
-        <li className='card'>
-          <img src='https://' alt='Случайная фотка' className='card__photo' />
-          <button className='card__trash'></button>
-          <div className='card__wrap'>
-            <h2 className='card__name'></h2>
-            <div className='card__like-wrap'>
-              <button className='card__like' type='button'></button>
-              <span className='card__like-count'>0</span>
-            </div>
-          </div>
-        </li>
-      </template>
     </div>
   );
 }

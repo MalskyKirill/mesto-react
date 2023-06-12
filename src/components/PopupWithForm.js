@@ -13,11 +13,7 @@ function PopupWithForm({
     >
       <div className='popup__container'>
         <h2 className='popup__title'>{title}</h2>
-        <button
-          className='popup__close'
-          type='button'
-          onClick={onClose}
-        ></button>
+        <button className='popup__close' type='button' onClick={onClose} />
         <form className='popup__form' name={name} id={formId} noValidate>
           {children}
           <button className='popup__save' type='submit' form={formId}>
