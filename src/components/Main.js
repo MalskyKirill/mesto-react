@@ -12,7 +12,6 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
   useEffect(() => {
     Promise.all([api.getCards(), api.getUser()])
       .then(([resCardData, resUserData]) => {
-        console.log(resCardData);
         setUserName(resUserData.name);
         setUserDescription(resUserData.about);
         setUserAvatar(resUserData.avatar);

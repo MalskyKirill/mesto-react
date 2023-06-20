@@ -3,9 +3,11 @@ import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { api } from '../utils/Api';
 
 function App() {
+  //открытия попапов
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
   };
@@ -30,6 +32,20 @@ function App() {
 
   const [selectedCard, setSelectedCard] = useState({});
 
+  const [currentUser, setCurrentUser] = useState({});
+
+  useEffect(() => {
+    api.getUser().then((res) => {
+
+      console.log(res)
+
+      setCurrentUser(res)
+    });
+  }, []);
+
+  console.log(currentUser)
+
+  //закрытие всех попапов
   const closeAllPopup = () => {
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
