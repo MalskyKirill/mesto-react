@@ -14,18 +14,20 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
   const cards = useContext(CardsContext);
 
   const cardList = cards.map(({ link, name, likes, _id, owner }) => {
-    const isOwn = owner._id === currentUserId;
+    const isOwn = owner._id === currentUserId; //проверка на то что каточку создали мы
+    const isLiked = likes.some((like) => like.id === currentUserId); // проверка что мы лайкнули карточку
 
-    //console.log(isOwn);
-
-    return <Card
-      link={link}
-      name={name}
-      likes={likes}
-      key={_id}
-      onCardClick={onCardClick}
-      isOwn={isOwn}
-    />;
+    return (
+      <Card
+        link={link}
+        name={name}
+        likes={likes}
+        key={_id}
+        onCardClick={onCardClick}
+        isOwn={isOwn}
+        isLiked={isLiked}
+      />
+    );
   });
 
   return (
