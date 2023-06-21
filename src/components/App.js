@@ -6,6 +6,7 @@ import ImagePopup from './ImagePopup';
 import { useEffect, useState } from 'react';
 import { api } from '../utils/Api';
 import { CurrentUserContext } from '../context/CurrentUserContext';
+import { CardsContext } from '../context/CardsContext';
 
 function App() {
   //открытия попапов
@@ -33,17 +34,19 @@ function App() {
 
   const [selectedCard, setSelectedCard] = useState({});
 
+  //стейты пользователя и карточек
   const [currentUser, setCurrentUser] = useState({});
+  const [cards, setCards] = useState([]);
 
+  //получение данных  с сервера
   useEffect(() => {
-    api.getUser().then((res) => {
-      console.log(res);
-
-      setCurrentUser(res);
-    });
+    Promise.all([api.getUser(), api.getCards()]).then(
+      ([resUserData, resCardData]) => {
+        setCurrentUser(resUserData);
+        setCards(resCardData);
+      }
+    );
   }, []);
-
-  console.log(currentUser);
 
   //закрытие всех попапов
   const closeAllPopup = () => {
@@ -54,132 +57,134 @@ function App() {
   };
 
   return (
-    <CurrentUserContext.Provider value={currentUser}>
-      <div className='body'>
-        <div className='page'>
-          <Header />
-          <Main
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onEditAvatar={handleEditAvatarClick}
-            onCardClick={handelCardClick}
+    <CardsContext.Provider value={cards}>
+      <CurrentUserContext.Provider value={currentUser}>
+        <div className='body'>
+          <div className='page'>
+            <Header />
+            <Main
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              onCardClick={handelCardClick}
+            />
+            <Footer />
+          </div>
+          {/* <!-- попап редактирования профайла --> */}
+          <PopupWithForm
+            name={'popup-profile'}
+            title={'Редактировать профиль'}
+            formId={'profileField'}
+            buttonText={'Сохранить'}
+            isOpened={isEditProfilePopupOpen}
+            onClose={closeAllPopup}
+          >
+            <label className='popup__field-wrap'>
+              <input
+                id='name'
+                type='text'
+                className='popup__field popup__field_next_name'
+                placeholder='Имя'
+                name='name'
+                minLength='2'
+                maxLength='40'
+                required
+              />
+              <span className='popup__field-error popup__field-error-name'></span>
+            </label>
+            <label className='popup__field-wrap'>
+              <input
+                id='job'
+                type='text'
+                className='popup__field popup__field_next_job'
+                placeholder='Вид деятельности'
+                name='about'
+                minLength='2'
+                maxLength='200'
+                required
+              />
+              <span className='popup__field-error popup__field-error-job'>
+                ошибка профайла
+              </span>
+            </label>
+          </PopupWithForm>
+          {/* <!-- попап добавления новой карточки --> */}
+          <PopupWithForm
+            name={'popup-new-place'}
+            title={'Новое место'}
+            formId={'newPlaceField'}
+            buttonText={'Создать'}
+            isOpened={isAddPlacePopupOpen}
+            onClose={closeAllPopup}
+          >
+            <label className='popup__field-wrap'>
+              <input
+                id='title'
+                type='text'
+                className='popup__field popup__field_next_title'
+                placeholder='Название'
+                name='title'
+                minLength='2'
+                maxLength='30'
+                required
+              />
+              <span className='popup__field-error popup__field-error-title'>
+                ошибка имени карточки
+              </span>
+            </label>
+            <label className='popup__field-wrap'>
+              <input
+                id='link'
+                type='url'
+                className='popup__field popup__field_next_link'
+                placeholder='Ссылка на картинку'
+                name='link'
+                required
+              />
+              <span className='popup__field-error popup__field-error-link'>
+                ошибка юрл адреса
+              </span>
+            </label>
+          </PopupWithForm>
+          {/* <!-- попап смены аватара --> */}
+          <PopupWithForm
+            name={'popup-new-avatar'}
+            title={'Обновить аватар'}
+            formId={'newAvatarField'}
+            buttonText={'Сохранить'}
+            isOpened={isEditAvatarPopupOpen}
+            onClose={closeAllPopup}
+          >
+            <label className='popup__field-wrap'>
+              <input
+                id='linkAvatar'
+                type='url'
+                className='popup__field popup__field_next_link'
+                placeholder='Ссылка на картинку'
+                name='link'
+                required
+              />
+              <span className='popup__field-error popup__field-error-linkAvatar'>
+                ошибка юрл адреса
+              </span>
+            </label>
+          </PopupWithForm>
+          {/* <!-- попап подтверждения удаления карточка --> */}
+          <PopupWithForm
+            name={'popup-confurm-delite'}
+            title={'Вы уверены?'}
+            formId={'ConfurmDeliteField'}
+            buttonText={'Да'}
           />
-          <Footer />
+          {/* <!-- попап увеличенной картики --> */}
+          <ImagePopup
+            card={selectedCard}
+            isOpened={isImagePopupOpen}
+            onClose={closeAllPopup}
+          />
         </div>
-        {/* <!-- попап редактирования профайла --> */}
-        <PopupWithForm
-          name={'popup-profile'}
-          title={'Редактировать профиль'}
-          formId={'profileField'}
-          buttonText={'Сохранить'}
-          isOpened={isEditProfilePopupOpen}
-          onClose={closeAllPopup}
-        >
-          <label className='popup__field-wrap'>
-            <input
-              id='name'
-              type='text'
-              className='popup__field popup__field_next_name'
-              placeholder='Имя'
-              name='name'
-              minLength='2'
-              maxLength='40'
-              required
-            />
-            <span className='popup__field-error popup__field-error-name'></span>
-          </label>
-          <label className='popup__field-wrap'>
-            <input
-              id='job'
-              type='text'
-              className='popup__field popup__field_next_job'
-              placeholder='Вид деятельности'
-              name='about'
-              minLength='2'
-              maxLength='200'
-              required
-            />
-            <span className='popup__field-error popup__field-error-job'>
-              ошибка профайла
-            </span>
-          </label>
-        </PopupWithForm>
-        {/* <!-- попап добавления новой карточки --> */}
-        <PopupWithForm
-          name={'popup-new-place'}
-          title={'Новое место'}
-          formId={'newPlaceField'}
-          buttonText={'Создать'}
-          isOpened={isAddPlacePopupOpen}
-          onClose={closeAllPopup}
-        >
-          <label className='popup__field-wrap'>
-            <input
-              id='title'
-              type='text'
-              className='popup__field popup__field_next_title'
-              placeholder='Название'
-              name='title'
-              minLength='2'
-              maxLength='30'
-              required
-            />
-            <span className='popup__field-error popup__field-error-title'>
-              ошибка имени карточки
-            </span>
-          </label>
-          <label className='popup__field-wrap'>
-            <input
-              id='link'
-              type='url'
-              className='popup__field popup__field_next_link'
-              placeholder='Ссылка на картинку'
-              name='link'
-              required
-            />
-            <span className='popup__field-error popup__field-error-link'>
-              ошибка юрл адреса
-            </span>
-          </label>
-        </PopupWithForm>
-        {/* <!-- попап смены аватара --> */}
-        <PopupWithForm
-          name={'popup-new-avatar'}
-          title={'Обновить аватар'}
-          formId={'newAvatarField'}
-          buttonText={'Сохранить'}
-          isOpened={isEditAvatarPopupOpen}
-          onClose={closeAllPopup}
-        >
-          <label className='popup__field-wrap'>
-            <input
-              id='linkAvatar'
-              type='url'
-              className='popup__field popup__field_next_link'
-              placeholder='Ссылка на картинку'
-              name='link'
-              required
-            />
-            <span className='popup__field-error popup__field-error-linkAvatar'>
-              ошибка юрл адреса
-            </span>
-          </label>
-        </PopupWithForm>
-        {/* <!-- попап подтверждения удаления карточка --> */}
-        <PopupWithForm
-          name={'popup-confurm-delite'}
-          title={'Вы уверены?'}
-          formId={'ConfurmDeliteField'}
-          buttonText={'Да'}
-        />
-        {/* <!-- попап увеличенной картики --> */}
-        <ImagePopup
-          card={selectedCard}
-          isOpened={isImagePopupOpen}
-          onClose={closeAllPopup}
-        />
-      </div>
-    </CurrentUserContext.Provider>
+      </CurrentUserContext.Provider>
+    </CardsContext.Provider>
   );
 }
 

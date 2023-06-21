@@ -1,40 +1,32 @@
-import { useEffect, useState, useContext } from 'react';
-import { api } from '../utils/Api';
+import { useContext } from 'react';
 import Card from './Card';
-import {CurrentUserContext} from '../context/CurrentUserContext'
-
+import { CurrentUserContext } from '../context/CurrentUserContext';
+import { CardsContext } from '../context/CardsContext';
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
-  const [userName, setUserName] = useState('');
-  const [userDescription, setUserDescription] = useState('');
-  const [userAvatar, setUserAvatar] = useState('');
-  const [cards, setcards] = useState([]);
+  //подписка на CurrentUserContext и CardsContext
+  const {
+    avatar,
+    name,
+    about,
+    _id: currentUserId,
+  } = useContext(CurrentUserContext);
+  const cards = useContext(CardsContext);
 
-  //подписка на CurrentUserContext
-  const {avatar, name, about} = useContext(CurrentUserContext)
+  const cardList = cards.map(({ link, name, likes, _id, owner }) => {
+    const isOwn = owner._id === currentUserId;
 
-  //получение данных  с сервера и изменение стейта пользовательских данных и карточки
-  useEffect(() => {
-    Promise.all([api.getCards(), api.getUser()])
-      .then(([resCardData, resUserData]) => {
-        setUserName(resUserData.name);
-        setUserDescription(resUserData.about);
-        setUserAvatar(resUserData.avatar);
-        setcards(resCardData);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    //console.log(isOwn);
 
-
-  const cardList = cards.map(({ link, name, likes, _id }) => (
-    <Card
+    return <Card
       link={link}
       name={name}
       likes={likes}
       key={_id}
       onCardClick={onCardClick}
-    />
-  ));
+      isOwn={isOwn}
+    />;
+  });
 
   return (
     <main className='content'>

@@ -1,4 +1,4 @@
-function Card({ link, name, likes, onCardClick }) {
+function Card({ link, name, likes, onCardClick, isOwn }) {
   function handleClick() {
     return onCardClick({ link, name });
   }
@@ -11,7 +11,7 @@ function Card({ link, name, likes, onCardClick }) {
         className='card__photo'
         onClick={handleClick}
       />
-      <button className='card__trash'></button>
+      {isOwn && <button className='card__trash' />}
       <div className='card__wrap'>
         <h2 className='card__name'>{name}</h2>
         <div className='card__like-wrap'>
