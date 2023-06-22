@@ -3,7 +3,7 @@ import Card from './Card';
 import { CurrentUserContext } from '../context/CurrentUserContext';
 import { CardsContext } from '../context/CardsContext';
 
-function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
+function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike }) {
   //подписка на CurrentUserContext и CardsContext
   const {
     avatar,
@@ -15,7 +15,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
 
   const cardList = cards.map(({ link, name, likes, _id, owner }) => {
     const isOwn = owner._id === currentUserId; //проверка на то что каточку создали мы
-    const isLiked = likes.some((like) => like.id === currentUserId); // проверка что мы лайкнули карточку
+    const isLiked = likes.some((like) => like._id === currentUserId); // проверка что мы лайкнули карточку
 
     return (
       <Card
@@ -23,9 +23,11 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
         name={name}
         likes={likes}
         key={_id}
+        _id={_id}
         onCardClick={onCardClick}
         isOwn={isOwn}
         isLiked={isLiked}
+        onCardLike={onCardLike}
       />
     );
   });

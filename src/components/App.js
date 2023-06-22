@@ -56,6 +56,19 @@ function App() {
     setIsImagePopupOpen(false);
   };
 
+  //лайк карточки
+  const handleCardLike = ({likes, _id}) => {
+    const isLiked = likes.some((like) => like._id === currentUser._id);
+    console.log(isLiked)
+    api
+      .changeLikeCardStatus(_id, isLiked)
+      .then((newCard) =>
+        setCards((state) =>
+          state.map((c) => (c._id === _id ? newCard : c))
+        )
+      );
+  }
+
   return (
     <CardsContext.Provider value={cards}>
       <CurrentUserContext.Provider value={currentUser}>
@@ -67,6 +80,7 @@ function App() {
               onAddPlace={handleAddPlaceClick}
               onEditAvatar={handleEditAvatarClick}
               onCardClick={handelCardClick}
+              onCardLike={handleCardLike}
             />
             <Footer />
           </div>

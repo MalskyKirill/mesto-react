@@ -1,6 +1,10 @@
-function Card({ link, name, likes, onCardClick, isOwn, isLiked }) {
+function Card({ link, name, likes, _id, onCardClick, isOwn, isLiked, onCardLike }) {
   function handleClick() {
     return onCardClick({ link, name });
+  }
+
+  function handleLikeClick() {
+    return onCardLike({likes, _id})
   }
 
   const cardLikeButtonClassName = `card__like ${
@@ -19,7 +23,7 @@ function Card({ link, name, likes, onCardClick, isOwn, isLiked }) {
       <div className='card__wrap'>
         <h2 className='card__name'>{name}</h2>
         <div className='card__like-wrap'>
-          <button className={cardLikeButtonClassName} type='button'></button>
+          <button className={cardLikeButtonClassName} type='button' onClick={handleLikeClick}></button>
           <span className='card__like-count'>{likes.length}</span>
         </div>
       </div>
