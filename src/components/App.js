@@ -2,6 +2,7 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
+import EditProfilePopup from './EditProfilePopup';
 import ImagePopup from './ImagePopup';
 import { useEffect, useState } from 'react';
 import { api } from '../utils/Api';
@@ -92,43 +93,7 @@ function App() {
             <Footer />
           </div>
           {/* <!-- попап редактирования профайла --> */}
-          <PopupWithForm
-            name={'popup-profile'}
-            title={'Редактировать профиль'}
-            formId={'profileField'}
-            buttonText={'Сохранить'}
-            isOpened={isEditProfilePopupOpen}
-            onClose={closeAllPopup}
-          >
-            <label className='popup__field-wrap'>
-              <input
-                id='name'
-                type='text'
-                className='popup__field popup__field_next_name'
-                placeholder='Имя'
-                name='name'
-                minLength='2'
-                maxLength='40'
-                required
-              />
-              <span className='popup__field-error popup__field-error-name'></span>
-            </label>
-            <label className='popup__field-wrap'>
-              <input
-                id='job'
-                type='text'
-                className='popup__field popup__field_next_job'
-                placeholder='Вид деятельности'
-                name='about'
-                minLength='2'
-                maxLength='200'
-                required
-              />
-              <span className='popup__field-error popup__field-error-job'>
-                ошибка профайла
-              </span>
-            </label>
-          </PopupWithForm>
+          <EditProfilePopup isOpened={isEditProfilePopupOpen} onClose={closeAllPopup}/>
           {/* <!-- попап добавления новой карточки --> */}
           <PopupWithForm
             name={'popup-new-place'}
