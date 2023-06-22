@@ -57,17 +57,23 @@ function App() {
   };
 
   //лайк карточки
-  const handleCardLike = ({likes, _id}) => {
+  const handleCardLike = ({ likes, _id }) => {
     const isLiked = likes.some((like) => like._id === currentUser._id);
-    console.log(isLiked)
     api
       .changeLikeCardStatus(_id, isLiked)
       .then((newCard) =>
-        setCards((state) =>
-          state.map((c) => (c._id === _id ? newCard : c))
-        )
+        setCards((state) => state.map((c) => (c._id === _id ? newCard : c)))
       );
-  }
+  };
+
+  //удаление карточки
+  const handleCardDelete = ({ _id }) => {
+    api
+      .deleteCard(_id)
+      .then(() =>
+        setCards((state) => state.filter((card) => card._id !== _id))
+      );
+  };
 
   return (
     <CardsContext.Provider value={cards}>
@@ -81,6 +87,7 @@ function App() {
               onEditAvatar={handleEditAvatarClick}
               onCardClick={handelCardClick}
               onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
             />
             <Footer />
           </div>

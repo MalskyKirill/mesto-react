@@ -84,31 +84,6 @@ class Api {
     });
   }
 
-  //лайк карточки
-  likeCard(_id) {
-    return fetch(`${this._url}/cards/${_id}/likes`, {
-      method: 'PUT',
-      headers: {
-        authorization: this._authorizationToken,
-        'Content-Type': 'application/json',
-      },
-    }).then((res) => {
-      return this._getResponseData(res);
-    });
-  }
-
-  //удаление лайка
-  deliteLikeCard(_id) {
-    return fetch(`${this._url}/cards/${_id}/likes`, {
-      method: 'DELETE',
-      headers: {
-        authorization: this._authorizationToken,
-        'Content-Type': 'application/json',
-      },
-    }).then((res) => {
-      return this._getResponseData(res);
-    });
-  }
   //изменение статуса лайка
   changeLikeCardStatus(_id, isLiked) {
     return fetch(`${this._url}/cards/${_id}/likes`, {

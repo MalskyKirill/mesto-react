@@ -3,7 +3,14 @@ import Card from './Card';
 import { CurrentUserContext } from '../context/CurrentUserContext';
 import { CardsContext } from '../context/CardsContext';
 
-function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike }) {
+function Main({
+  onEditProfile,
+  onAddPlace,
+  onEditAvatar,
+  onCardClick,
+  onCardLike,
+  onCardDelete,
+}) {
   //подписка на CurrentUserContext и CardsContext
   const {
     avatar,
@@ -28,6 +35,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike
         isOwn={isOwn}
         isLiked={isLiked}
         onCardLike={onCardLike}
+        onCardDelete={onCardDelete}
       />
     );
   });
