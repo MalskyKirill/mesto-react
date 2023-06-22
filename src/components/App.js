@@ -76,6 +76,14 @@ function App() {
       );
   };
 
+  //обнавление профайла
+  const handleUpdateUser = ({ name, about }) => {
+    api.edingProfile({ name, about }).then((newUserInfo) => {
+      setCurrentUser(newUserInfo);
+      closeAllPopup();
+    });
+  };
+
   return (
     <CardsContext.Provider value={cards}>
       <CurrentUserContext.Provider value={currentUser}>
@@ -93,7 +101,11 @@ function App() {
             <Footer />
           </div>
           {/* <!-- попап редактирования профайла --> */}
-          <EditProfilePopup isOpened={isEditProfilePopupOpen} onClose={closeAllPopup}/>
+          <EditProfilePopup
+            isOpened={isEditProfilePopupOpen}
+            onClose={closeAllPopup}
+            onUpdateUser={handleUpdateUser}
+          />
           {/* <!-- попап добавления новой карточки --> */}
           <PopupWithForm
             name={'popup-new-place'}
