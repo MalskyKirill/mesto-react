@@ -8,8 +8,12 @@ function EditProfilePopup({ isOpened, onClose, onUpdateUser }) {
 
   const currentUser = useContext(CurrentUserContext);
 
-  const handleChange = (evt) => {
+  const handleNameChange = (evt) => {
     setName(evt.target.value);
+  };
+
+  const handleDescriptionChange = (evt) => {
+    setDescription(evt.target.value);
   };
 
   const handleSubmit = (evt) => {
@@ -47,7 +51,7 @@ function EditProfilePopup({ isOpened, onClose, onUpdateUser }) {
           maxLength='40'
           required
           value={name || ''}
-          onChange={handleChange}
+          onChange={handleNameChange}
         />
         <span className='popup__field-error popup__field-error-name'></span>
       </label>
@@ -62,7 +66,7 @@ function EditProfilePopup({ isOpened, onClose, onUpdateUser }) {
           maxLength='200'
           required
           value={description || ''}
-          onChange={handleChange}
+          onChange={handleDescriptionChange}
         />
         <span className='popup__field-error popup__field-error-job'>
           ошибка профайла

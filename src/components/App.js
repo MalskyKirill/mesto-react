@@ -3,6 +3,7 @@ import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 import ImagePopup from './ImagePopup';
 import { useEffect, useState } from 'react';
 import { api } from '../utils/Api';
@@ -84,6 +85,14 @@ function App() {
     });
   };
 
+  //обновление аватара
+  const handleUpdateAvatar = ({avatar}) => {
+    api.changeAvatar(avatar).then(() => {
+      setCurrentUser({...currentUser, avatar: avatar})
+      closeAllPopup();
+    })
+  }
+
   return (
     <CardsContext.Provider value={cards}>
       <CurrentUserContext.Provider value={currentUser}>
@@ -145,28 +154,11 @@ function App() {
             </label>
           </PopupWithForm>
           {/* <!-- попап смены аватара --> */}
-          <PopupWithForm
-            name={'popup-new-avatar'}
-            title={'Обновить аватар'}
-            formId={'newAvatarField'}
-            buttonText={'Сохранить'}
+          <EditAvatarPopup
             isOpened={isEditAvatarPopupOpen}
             onClose={closeAllPopup}
-          >
-            <label className='popup__field-wrap'>
-              <input
-                id='linkAvatar'
-                type='url'
-                className='popup__field popup__field_next_link'
-                placeholder='Ссылка на картинку'
-                name='link'
-                required
-              />
-              <span className='popup__field-error popup__field-error-linkAvatar'>
-                ошибка юрл адреса
-              </span>
-            </label>
-          </PopupWithForm>
+            onUpdateAvatar={handleUpdateAvatar}
+          />
           {/* <!-- попап подтверждения удаления карточка --> */}
           <PopupWithForm
             name={'popup-confurm-delite'}
