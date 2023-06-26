@@ -94,6 +94,14 @@ function App() {
     });
   };
 
+  const handleAddPlaceSubmit = ({title, link}) => {
+    api.addCard({title, link}).then((newCard) => {
+
+      setCards([newCard, ...cards])
+      closeAllPopup();
+    })
+  }
+
   return (
     <CardsContext.Provider value={cards}>
       <CurrentUserContext.Provider value={currentUser}>
@@ -120,6 +128,7 @@ function App() {
           <AddPlacePopup
             isOpened={isAddPlacePopupOpen}
             onClose={closeAllPopup}
+            onAddNewCard={handleAddPlaceSubmit}
           />
           {/* <!-- попап смены аватара --> */}
           <EditAvatarPopup

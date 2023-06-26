@@ -1,6 +1,29 @@
 import PopupWithForm from './PopupWithForm';
+import { useState } from 'react';
 
-function AddPlacePopup({ isOpened, onClose }) {
+function AddPlacePopup({ isOpened, onClose, onAddNewCard }) {
+  const [title, setTitle] = useState('');
+  const [link, setLink] = useState('');
+
+  const handleTitleChange = (evt) => {
+    setTitle(evt.target.value);
+  };
+
+  const handleLinkChange = (evt) => {
+    setLink(evt.target.value);
+  };
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+
+    onAddNewCard({
+      title,
+      link,
+    });
+
+    evt.target.reset();
+  }
+
   return (
     <PopupWithForm
       name={'popup-new-place'}
@@ -9,6 +32,7 @@ function AddPlacePopup({ isOpened, onClose }) {
       buttonText={'Создать'}
       isOpened={isOpened}
       onClose={onClose}
+      onSubmit={handleSubmit}
     >
       <label className='popup__field-wrap'>
         <input
@@ -20,6 +44,7 @@ function AddPlacePopup({ isOpened, onClose }) {
           minLength='2'
           maxLength='30'
           required
+          onChange={handleTitleChange}
         />
         <span className='popup__field-error popup__field-error-title'>
           ошибка имени карточки
@@ -33,6 +58,7 @@ function AddPlacePopup({ isOpened, onClose }) {
           placeholder='Ссылка на картинку'
           name='link'
           required
+          onChange={handleLinkChange}
         />
         <span className='popup__field-error popup__field-error-link'>
           ошибка юрл адреса
