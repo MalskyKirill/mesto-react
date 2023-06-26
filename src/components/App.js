@@ -12,6 +12,17 @@ import { CardsContext } from '../context/CardsContext';
 import AddPlacePopup from './AddPlacePopup';
 
 function App() {
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+
+  const [selectedCard, setSelectedCard] = useState({});
+
+  //стейты пользователя и карточек
+  const [currentUser, setCurrentUser] = useState({});
+  const [cards, setCards] = useState([]);
+
   //открытия попапов
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
@@ -30,25 +41,14 @@ function App() {
     setIsImagePopupOpen(true);
   };
 
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
-
-  const [selectedCard, setSelectedCard] = useState({});
-
-  //стейты пользователя и карточек
-  const [currentUser, setCurrentUser] = useState({});
-  const [cards, setCards] = useState([]);
-
   //получение данных  с сервера
   useEffect(() => {
-    Promise.all([api.getUser(), api.getCards()]).then(
-      ([resUserData, resCardData]) => {
+    Promise.all([api.getUser(), api.getCards()])
+      .then(([resUserData, resCardData]) => {
         setCurrentUser(resUserData);
         setCards(resCardData);
-      }
-    );
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   //закрытие всех попапов
@@ -62,45 +62,54 @@ function App() {
   //лайк карточки
   const handleCardLike = ({ likes, _id }) => {
     const isLiked = likes.some((like) => like._id === currentUser._id);
+
     api
       .changeLikeCardStatus(_id, isLiked)
       .then((newCard) =>
         setCards((state) => state.map((c) => (c._id === _id ? newCard : c)))
-      );
+      )
+      .catch((err) => console.log(err));
   };
 
   //удаление карточки
   const handleCardDelete = ({ _id }) => {
     api
       .deleteCard(_id)
-      .then(() =>
-        setCards((state) => state.filter((card) => card._id !== _id))
-      );
+      .then(() => setCards((state) => state.filter((card) => card._id !== _id)))
+      .catch((err) => console.log(err));
   };
 
   //обнавление профайла
   const handleUpdateUser = ({ name, about }) => {
-    api.edingProfile({ name, about }).then((newUserInfo) => {
-      setCurrentUser(newUserInfo);
-      closeAllPopup();
-    });
+    api
+      .edingProfile({ name, about })
+      .then((newUserInfo) => {
+        setCurrentUser(newUserInfo);
+        closeAllPopup();
+      })
+      .catch((err) => console.log(err));
   };
 
   //обновление аватара
   const handleUpdateAvatar = ({ avatar }) => {
-    api.changeAvatar(avatar).then(() => {
-      setCurrentUser({ ...currentUser, avatar: avatar });
-      closeAllPopup();
-    });
+    api
+      .changeAvatar(avatar)
+      .then(() => {
+        setCurrentUser({ ...currentUser, avatar: avatar });
+        closeAllPopup();
+      })
+      .catch((err) => console.log(err));
   };
 
-  const handleAddPlaceSubmit = ({title, link}) => {
-    api.addCard({title, link}).then((newCard) => {
-
-      setCards([newCard, ...cards])
-      closeAllPopup();
-    })
-  }
+  const handleAddPlaceSubmit = ({ title, link }) => {
+    api
+      .addCard({ title, link })
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopup();
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <CardsContext.Provider value={cards}>

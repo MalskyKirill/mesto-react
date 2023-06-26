@@ -1,5 +1,5 @@
 import PopupWithForm from './PopupWithForm';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 function EditAvatarPopup({ isOpened, onClose, onUpdateAvatar }) {
   //реф для получения дынных из инпута
@@ -11,9 +11,11 @@ function EditAvatarPopup({ isOpened, onClose, onUpdateAvatar }) {
     onUpdateAvatar({
       avatar: valueAvatarLinkInputRef.current.value,
     });
-
-    evt.target.reset();
   }
+
+  useEffect(() => {
+    valueAvatarLinkInputRef.current.value = '';
+  }, [isOpened]);
 
   return (
     <PopupWithForm

@@ -11,19 +11,18 @@ function Main({
   onCardLike,
   onCardDelete,
 }) {
+
   //подписка на CurrentUserContext
   const {
     avatar,
     name,
     about,
-    _id: currentUserId,
   } = useContext(CurrentUserContext);
+
+  //подписка на CardsContext
   const cards = useContext(CardsContext);
 
   const cardList = cards.map(({ link, name, likes, _id, owner }) => {
-    const isOwn = owner._id === currentUserId; //проверка на то что каточку создали мы
-    const isLiked = likes.some((like) => like._id === currentUserId); // проверка что мы лайкнули карточку
-
     return (
       <Card
         link={link}
@@ -32,8 +31,7 @@ function Main({
         key={_id}
         _id={_id}
         onCardClick={onCardClick}
-        isOwn={isOwn}
-        isLiked={isLiked}
+        owner={owner}
         onCardLike={onCardLike}
         onCardDelete={onCardDelete}
       />

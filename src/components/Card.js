@@ -1,14 +1,22 @@
+import { useContext } from "react";
+import { CurrentUserContext } from "../context/CurrentUserContext";
+
 function Card({
   link,
   name,
   likes,
   _id,
   onCardClick,
-  isOwn,
-  isLiked,
+  owner,
   onCardLike,
   onCardDelete,
 }) {
+
+  const {_id: currentUserId} = useContext(CurrentUserContext)
+
+  const isOwn = owner._id === currentUserId; //проверка на то что каточку создали мы
+  const isLiked = likes.some((like) => like._id === currentUserId); // проверка что мы лайкнули карточку
+
   function handleClick() {
     onCardClick({ link, name });
   }
