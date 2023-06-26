@@ -11,7 +11,7 @@ function Main({
   onCardLike,
   onCardDelete,
 }) {
-  //подписка на CurrentUserContext и CardsContext
+  //подписка на CurrentUserContext
   const {
     avatar,
     name,

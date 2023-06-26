@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { api } from '../utils/Api';
 import { CurrentUserContext } from '../context/CurrentUserContext';
 import { CardsContext } from '../context/CardsContext';
+import AddPlacePopup from './AddPlacePopup';
 
 function App() {
   //открытия попапов
@@ -86,12 +87,12 @@ function App() {
   };
 
   //обновление аватара
-  const handleUpdateAvatar = ({avatar}) => {
+  const handleUpdateAvatar = ({ avatar }) => {
     api.changeAvatar(avatar).then(() => {
-      setCurrentUser({...currentUser, avatar: avatar})
+      setCurrentUser({ ...currentUser, avatar: avatar });
       closeAllPopup();
-    })
-  }
+    });
+  };
 
   return (
     <CardsContext.Provider value={cards}>
@@ -116,43 +117,10 @@ function App() {
             onUpdateUser={handleUpdateUser}
           />
           {/* <!-- попап добавления новой карточки --> */}
-          <PopupWithForm
-            name={'popup-new-place'}
-            title={'Новое место'}
-            formId={'newPlaceField'}
-            buttonText={'Создать'}
+          <AddPlacePopup
             isOpened={isAddPlacePopupOpen}
             onClose={closeAllPopup}
-          >
-            <label className='popup__field-wrap'>
-              <input
-                id='title'
-                type='text'
-                className='popup__field popup__field_next_title'
-                placeholder='Название'
-                name='title'
-                minLength='2'
-                maxLength='30'
-                required
-              />
-              <span className='popup__field-error popup__field-error-title'>
-                ошибка имени карточки
-              </span>
-            </label>
-            <label className='popup__field-wrap'>
-              <input
-                id='link'
-                type='url'
-                className='popup__field popup__field_next_link'
-                placeholder='Ссылка на картинку'
-                name='link'
-                required
-              />
-              <span className='popup__field-error popup__field-error-link'>
-                ошибка юрл адреса
-              </span>
-            </label>
-          </PopupWithForm>
+          />
           {/* <!-- попап смены аватара --> */}
           <EditAvatarPopup
             isOpened={isEditAvatarPopupOpen}
